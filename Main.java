@@ -13,7 +13,13 @@ public class Main {
         System.out.println("anna laattojen määrä");
         int laattoja = Integer.parseInt(scanner.nextLine());
         */
-        Testaus testaus = new Testaus();
-                                        
+        
+        TestausDetTekoaly test = new TestausDetTekoaly();
+        test.testaaLinnassaOlevatSeuraajat();
+        test.testaaRuudunViereistenLinnojenSeuraajat();
+        test.testaaSeuraajatKulmittainLinnoissa();
+        test.testaaViereistenLinnojenPisteet();
+        test.testaaKulmittaistenLinnojenPisteet();     
+        test.testaaLinnanSijoitusMatriisi();
     }    
 }

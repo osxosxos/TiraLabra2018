@@ -1,0 +1,540 @@
+
+package tiralabrapeli;
+
+public class TestausDetTekoaly {
+    Funktiot funktiot = new Funktiot();
+    DetermistinenTekoaly aly = new DetermistinenTekoaly(0,0);
+    
+    public void testaaLinnanSijoitusMatriisi() {
+        int pelaaja = 3;
+        int[] pelaajat = new int[]{3,4,5};
+        
+        int[][] peli1 = new int[][]{
+            {2,4,2,3,2,0,2},
+            {0,2,3,2,0,0,4},
+            {0,2,2,0,1,0,2},
+            {0,1,2,0,0,2,3},
+            {0,0,0,0,2,4,2},
+            {0,0,0,1,2,2,5},
+            {0,1,0,0,3,2,2},            
+        };
+        
+        System.out.println("TESTI 1:");
+        funktiot.tulostaKartta(peli1);
+        System.out.println("pelaajan numero on 3");
+        funktiot.tulostaKartta(aly.linnanSijoitusMatriisi(pelaajat, peli1, pelaaja));
+        System.out.println("");
+        
+        int[][] peli2 = new int[][]{
+            {2,4,2,0,0,0,0},
+            {3,2,2,1,1,0,3},
+            {4,2,4,1,0,2,2},
+            {1,0,0,0,3,2,3},
+            {0,0,0,2,0,2,2},
+            {0,0,2,4,2,0,5},
+            {0,5,2,2,2,4,2},            
+        };
+        
+        System.out.println("TESTI 2:");
+        funktiot.tulostaKartta(peli2);
+        System.out.println("pelaajan numero on 3");
+        funktiot.tulostaKartta(aly.linnanSijoitusMatriisi(pelaajat, peli2, pelaaja));
+        System.out.println("");
+        
+        int[][] peli3 = new int[][]{
+            {5,2,2,3,0,1,1,0,0},
+            {2,0,1,2,1,0,1,1,0},
+            {2,1,2,2,0,1,0,0,0},
+            {4,2,2,3,0,2,4,2,4},
+            {0,0,0,0,0,2,2,5,2},
+            {4,2,2,3,0,2,3,2,2},
+            {2,3,0,2,0,0,1,1,0},
+            {2,2,1,2,0,0,1,0,0},
+            {5,2,2,3,0,0,0,0,0}          
+        };
+        
+        System.out.println("TESTI 3:");
+        funktiot.tulostaKartta(peli3);
+        System.out.println("pelaajan numero on 3");
+        funktiot.tulostaKartta(aly.linnanSijoitusMatriisi(pelaajat, peli3, pelaaja));
+        System.out.println("");
+        
+        int[][] peli4 = new int[][]{
+            {4, 2, 2, 2, 2, 2, 2, 0, 1, 1},
+            {2, 5, 2, 2, 2, 2, 2, 1, 0, 1},
+            {2, 2, 4, 2, 2, 2, 2, 1, 0, 1},
+            {2, 2, 2, 3, 2, 2, 2, 1, 1, 0},
+            {2, 2, 2, 2, 3, 2, 2, 0, 1, 0},
+            {2, 2, 2, 2, 2, 4, 2, 1, 1, 0},
+            {2, 2, 2, 2, 2, 2, 4, 0, 1, 0},
+            {1, 0, 0, 1, 1, 0, 0, 2, 2, 3},
+            {0, 1, 1, 0, 0, 1, 0, 2, 3, 2},
+            {0, 1, 0, 1, 0, 0, 1, 3, 2, 3},
+        };  
+        
+        System.out.println("TESTI 4:");
+        funktiot.tulostaKartta(peli4);
+        System.out.println("pelaajan numero on 3");
+        funktiot.tulostaKartta(aly.linnanSijoitusMatriisi(pelaajat, peli4, pelaaja));
+        System.out.println("");
+        
+    }
+    
+    public void testaaSeuraajatKulmittainLinnoissa () {
+        System.out.println("Funktion SeuraajatKulmittainLinnoissa testaus ");
+        
+        System.out.println("TESTI 1:");
+        
+        int[] pelaajat1 = new int []{3,4,5};
+        
+        int[][] peli1 = new int[][]{
+            {2,4,2,3,2,0,0},
+            {0,2,3,2,0,0,0},
+            {0,0,2,0,1,0,2},
+            {0,1,0,0,0,2,3},
+            {0,0,0,0,2,4,2},
+            {0,0,0,1,0,2,5},
+            {0,1,0,0,0,0,2},            
+        };
+        
+        int[][] vastaus1 = new int[][] {
+            {3,4,5},
+            {3,2,1}
+        };
+        
+        funktiot.tulostaKartta(peli1);
+        System.out.println("lähdetään ruudusta 3:3");
+        System.out.println("vastauksen tulisi olla:");        
+        aly.tulostaPistetaulu(vastaus1);
+        System.out.println("metodi palauttaa:");
+        aly.tulostaPistetaulu(aly.seuraajatKulmittainLinnoissa(3, 3, pelaajat1, peli1));
+        System.out.println("");
+        
+        System.out.println("TESTI 2:");
+        
+        int[] pelaajat2 = new int []{3,4,5};
+        
+        int[][] peli2 = new int[][]{
+            {0,4,2,3,2,5,2},
+            {0,0,2,2,2,0,3},
+            {0,0,0,5,0,2,2},
+            {0,0,0,0,3,2,4},
+            {0,0,0,2,0,2,2},
+            {0,0,2,2,2,0,5},
+            {0,5,2,2,2,4,2},            
+        };
+        
+        int[][] vastaus2 = new int[][] {
+            {3,4,5},
+            {3,3,4}
+        };
+        
+        funktiot.tulostaKartta(peli2);
+        System.out.println("lähdetään ruudusta 1:0");
+        System.out.println("vastauksen tulisi olla:");        
+        aly.tulostaPistetaulu(vastaus2);
+        System.out.println("metodi palauttaa:");
+        aly.tulostaPistetaulu(aly.seuraajatKulmittainLinnoissa(1, 0, pelaajat2, peli2));
+        System.out.println("");
+        
+        int[][] peli3 = new int[][]{
+            {5,2,2,4,0,0,0,0,0},
+            {2,0,0,2,0,0,0,0,0},
+            {2,0,0,2,0,0,2,0,0},
+            {6,2,2,3,0,2,4,2,0},
+            {0,0,0,0,0,0,2,6,2},
+            {4,2,2,3,0,2,3,2,0},
+            {2,0,0,2,0,0,2,0,0},
+            {2,0,0,2,0,0,0,0,0},
+            {5,2,2,6,0,0,0,0,0}          
+        };
+        
+        int[] pelaajat3 = new int []{3,4,5,6};
+        
+        int[][] vastaus3 = new int[][] {
+            {3,4,5,6},
+            {3,3,2,3}
+        };
+        
+        funktiot.tulostaKartta(peli3);
+        System.out.println("lähdetään ruudusta 4:4");
+        System.out.println("vastauksen tulisi olla:");        
+        aly.tulostaPistetaulu(vastaus3);
+        System.out.println("metodi palauttaa:");
+        aly.tulostaPistetaulu(aly.seuraajatKulmittainLinnoissa(4,4, pelaajat3, peli3));
+        System.out.println("");
+        
+        int[][] peli4 = new int[][]{
+            {5,2,2,4,1,4,2,2,5},
+            {2,0,0,2,0,2,0,0,2},
+            {2,0,0,2,1,2,0,0,2},
+            {6,2,2,3,0,3,2,2,6},
+            {1,0,1,0,1,0,1,0,1},
+            {4,2,2,3,0,3,2,2,4},
+            {2,0,0,2,1,2,0,0,2},
+            {2,0,0,2,0,2,0,0,2},
+            {5,2,2,6,1,6,2,2,5}          
+        };
+        
+        int[] pelaajat4 = new int []{3,4,5,6};
+        
+        int[][] vastaus4 = new int[][] {
+            {3,4,5,6},
+            {4,4,4,4}
+        };
+        
+        funktiot.tulostaKartta(peli4);
+        System.out.println("lähdetään ruudusta 4:4");
+        System.out.println("vastauksen tulisi olla:");        
+        aly.tulostaPistetaulu(vastaus4);
+        System.out.println("metodi palauttaa:");
+        aly.tulostaPistetaulu(aly.seuraajatKulmittainLinnoissa(4,4, pelaajat4, peli4));
+        System.out.println("");
+        
+    }
+    
+    public void testaaRuudunViereistenLinnojenSeuraajat() {
+        
+        System.out.println("TESTI 1:");
+        
+        int[] pelaajat1 = new int []{3,4,5};
+        
+        int[][] peli1 = new int[][]{
+            {0,4,2,3,2,5,0},
+            {0,0,2,2,2,0,3},
+            {0,0,0,5,0,2,2},
+            {0,0,0,0,3,2,4},
+            {0,0,0,0,0,2,2},
+            {0,0,0,0,0,0,5},
+            {0,0,0,0,0,0,0},            
+        };
+        
+        int[][] vastaus1 = new int[][] {
+            {3,4,5},
+            {3,2,3}
+        };
+        
+        funktiot.tulostaKartta(peli1);
+        System.out.println("lähdetään ruudusta 3:3");
+        System.out.println("vastauksen tulisi olla:");        
+        aly.tulostaPistetaulu(vastaus1);
+        System.out.println("metodi palauttaa:");
+        aly.tulostaPistetaulu(aly.ruudunViereistenLinnojenSeuraajat(3, 3, pelaajat1, peli1));
+        System.out.println("");
+        
+        System.out.println("TESTI 2:");
+        
+        int[] pelaajat2 = new int []{3,4,5};
+        
+        int[][] peli2 = new int[][]{
+            {1,4,2,3,2,5,2},
+            {2,1,2,2,2,0,3},
+            {4,2,0,5,0,2,2},
+            {2,3,2,0,3,2,4},
+            {2,2,1,2,0,2,2},
+            {5,1,2,2,2,0,5},
+            {0,5,2,2,2,4,0},            
+        };
+        
+        int[][] vastaus2 = new int[][] {
+            {3,4,5},
+            {3,3,4}
+        };
+        
+        funktiot.tulostaKartta(peli2);
+        System.out.println("lähdetään ruudusta 3:3");
+        System.out.println("vastauksen tulisi olla:");        
+        aly.tulostaPistetaulu(vastaus2);
+        System.out.println("metodi palauttaa:");
+        aly.tulostaPistetaulu(aly.ruudunViereistenLinnojenSeuraajat(3, 3, pelaajat2, peli2));
+        System.out.println("");
+        
+        System.out.println("TESTI 3:");
+        
+        int[][] peli3 = new int[][]{
+            {5,2,2,4,0,0,0,0,0},
+            {2,0,0,2,0,0,0,0,0},
+            {2,0,0,2,0,0,2,0,0},
+            {6,2,2,3,0,2,4,2,0},
+            {0,0,0,0,2,5,2,6,2},
+            {4,2,2,3,0,2,3,2,0},
+            {2,0,0,2,0,0,2,0,0},
+            {2,0,0,2,0,0,0,0,0},
+            {5,2,2,6,0,0,0,0,0}          
+        };
+        
+        int[] pelaajat3 = new int []{3,4,5,6};
+        
+        int[][] vastaus3 = new int[][] {
+            {3,4,5,6},
+            {3,3,3,3}
+        };
+        
+        funktiot.tulostaKartta(peli3);
+        System.out.println("lähdetään ruudusta 4:3");
+        System.out.println("vastauksen tulisi olla:");        
+        aly.tulostaPistetaulu(vastaus3);
+        System.out.println("metodi palauttaa:");
+        aly.tulostaPistetaulu(aly.ruudunViereistenLinnojenSeuraajat(4, 3, pelaajat3, peli3));
+        System.out.println("");
+        
+        System.out.println("TESTI 4:");
+        
+        int[][] vastaus4 = new int[][] {
+            {3,4,5,6},
+            {2,2,2,2}
+        };
+        
+        funktiot.tulostaKartta(peli3);
+        System.out.println("lähdetään ruudusta 4:0");
+        System.out.println("vastauksen tulisi olla:");        
+        aly.tulostaPistetaulu(vastaus4);
+        System.out.println("metodi palauttaa:");
+        aly.tulostaPistetaulu(aly.ruudunViereistenLinnojenSeuraajat(4, 0, pelaajat3, peli3));
+        System.out.println("");
+        
+    }
+            
+    public void testaaLinnassaOlevatSeuraajat() {
+        
+        System.out.println("TESTI 1:");
+        
+        int[] pelaajat1 = new int []{3,4,5};
+                
+        int[][] peli1 = new int[][]{
+            { 3, 1, 0, 0, 0},
+            { 4, 2, 1, 1, 1},
+            { 5, 3, 2, 2, 2},
+            { 4, 2, 1, 1, 1},
+            { 3, 1, 0, 0, 0},
+        };
+        
+        funktiot.tulostaKartta(peli1);
+        System.out.println("lähdetään ruudusta 2:4");
+        System.out.println("vastauksen tulisi olla:");
+        
+        int[][] vastaus1 = new int[][] {
+            {3,4,5},
+            {3,2,1}
+        };
+        
+        aly.tulostaPistetaulu(vastaus1);
+        System.out.println("metodi palauttaa:");
+        aly.tulostaPistetaulu(aly.linnassaOlevatSeuraajat(2, 4, pelaajat1, peli1));
+        System.out.println("");
+        
+        System.out.println("TESTI 2:");
+        
+        int[] pelaajat2 = new int []{3,4,5,6};
+        
+        int[][] peli2 = new int[][]{
+            { 0, 1, 1, 1, 2},
+            { 2, 2, 2, 2, 6},
+            { 5, 3, 3, 3, 3},
+            { 2, 2, 2, 2, 6},
+            { 0, 1, 1, 1, 2},
+        };
+        
+        funktiot.tulostaKartta(peli2);
+        System.out.println("lähdetään ruudusta 2:0");
+        System.out.println("vastauksen tulisi olla:");
+        
+        int[][] vastaus2 = new int[][] {
+            {3,4,5,6},
+            {4,0,1,2}
+        };
+        
+        aly.tulostaPistetaulu(vastaus2);
+        System.out.println("metodi palauttaa:");
+        aly.tulostaPistetaulu(aly.linnassaOlevatSeuraajat(2, 0, pelaajat2, peli2));
+        System.out.println("");
+        
+        System.out.println("TESTI 3:");
+        
+        int[] pelaajat3 = new int []{3,4,5,6,7,8};
+        
+        int[][] peli3 = new int[][]{
+            {2, 8, 2, 7, 2, 6, 2, 5, 2, 2},
+            {8, 2, 7, 2, 6, 2, 5, 2, 4, 0},
+            {2, 7, 2, 6, 2, 5, 2, 4, 0, 0},
+            {7, 2, 6, 2, 5, 2, 4, 0, 0, 0},
+            {2, 6, 2, 5, 2, 4, 0, 0, 0, 0},
+            {6, 2, 5, 2, 4, 0, 0, 0, 0, 0},
+            {2, 5, 2, 4, 0, 0, 0, 0, 0, 1},
+            {5, 2, 4, 0, 0, 0, 0, 0, 1, 3},
+            {2, 4, 0, 0, 0, 0, 0, 1, 3, 2},
+            {2, 0, 0, 0, 0, 0, 1, 3, 2, 3},
+        };  
+        
+        funktiot.tulostaKartta(peli3);
+        System.out.println("lähdetään ruudusta 0:0");
+        System.out.println("vastauksen tulisi olla:");
+        
+        int[][] vastaus3 = new int[][] {
+            {3,4,5,6,7,8},
+            {0,8,8,6,4,2}
+        };
+        
+        aly.tulostaPistetaulu(vastaus3);
+        System.out.println("metodi palauttaa:");
+        aly.tulostaPistetaulu(aly.linnassaOlevatSeuraajat(0, 0, pelaajat3, peli3));
+        System.out.println("");
+                
+        System.out.println("TESTI 4:");
+        
+        int[]pelaajat4 = new int[]{3,4,5,6,7};
+        
+        int[][] peli4 = new int[][]{
+            {4, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+            {2, 5, 2, 2, 2, 2, 2, 0, 0, 2},
+            {2, 2, 6, 2, 2, 2, 2, 0, 0, 2},
+            {2, 2, 2, 7, 2, 2, 2, 0, 0, 2},
+            {2, 2, 2, 2, 6, 2, 2, 0, 0, 2},
+            {2, 2, 2, 2, 2, 5, 2, 0, 0, 2},
+            {2, 2, 2, 2, 2, 2, 4, 0, 0, 2},
+            {0, 0, 0, 0, 0, 0, 0, 2, 2, 3},
+            {0, 0, 0, 0, 0, 0, 0, 2, 3, 2},
+            {2, 2, 2, 2, 2, 2, 2, 3, 2, 3},
+        };  
+          
+        funktiot.tulostaKartta(peli4);
+        System.out.println("lähdetään ruudusta 9:9");
+        System.out.println("vastauksen tulisi olla:");
+        
+        int[][] vastaus4 = new int[][] {
+            {3,4,5,6,7},
+            {4,2,2,2,1}
+        };
+        
+        aly.tulostaPistetaulu(vastaus4);
+        System.out.println("metodi palauttaa:");
+        aly.tulostaPistetaulu(aly.linnassaOlevatSeuraajat(9, 9, pelaajat4, peli4));
+        System.out.println("");        
+                
+    }
+    
+    public void testaaViereistenLinnojenPisteet() {
+        
+        System.out.println("Testataan funktiota: viereistenLinnojenPisteet");
+        
+        int[][] peli1 = new int[][]{
+            {0,4,2,3,2,5,2},
+            {0,0,2,2,2,2,3},
+            {0,0,0,5,2,2,2},
+            {0,0,0,0,3,2,4},
+            {0,0,0,0,0,2,2},
+            {0,0,0,0,0,0,5},
+            {0,0,0,0,0,0,0},            
+        };
+        
+        System.out.println("TESTI 1");
+        funktiot.tulostaKartta(peli1);
+        System.out.println("lähdetään ruudusta 0:0");
+        System.out.println("tuloksen tulisi olla: 21");
+        System.out.println("funktio palauttaa: " + aly.viereistenLinnojenPisteet(0, 0, peli1));
+        
+        int[][] peli2 = new int[][]{
+            {0,0,2,2,2,0,0},
+            {0,1,2,5,2,0,0},
+            {0,0,3,2,2,1,0},
+            {2,2,2,0,3,2,4},
+            {2,2,2,1,2,2,2},
+            {2,2,2,0,2,2,5},
+            {0,1,0,0,1,0,0},            
+        };
+        
+        System.out.println("TESTI 2");
+        funktiot.tulostaKartta(peli2);
+        System.out.println("lähdetään ruudusta 3:3");
+        System.out.println("tuloksen tulisi olla: 27");
+        System.out.println("funktio palauttaa: " + aly.viereistenLinnojenPisteet(3, 3, peli2));
+        
+                
+        int[][] peli3 = new int[][]{
+            {0,0,2,2,2,0,0},
+            {0,1,2,5,2,0,0},
+            {2,2,3,2,2,2,2},
+            {2,2,2,0,3,2,4},
+            {2,2,2,2,2,2,2},
+            {0,0,2,2,2,0,0},
+            {0,1,2,2,2,0,0},            
+        };
+        
+        System.out.println("TESTI 3");
+        funktiot.tulostaKartta(peli2);
+        System.out.println("lähdetään ruudusta 3:3");
+        System.out.println("tuloksen tulisi olla: 27");
+        System.out.println("funktio palauttaa: " + aly.viereistenLinnojenPisteet(3, 3, peli2));
+    }
+    
+    public void testaaKulmittaistenLinnojenPisteet() {
+        
+        System.out.println("Testataan funktiota: kulmittaistenLinnojenPisteet");
+        
+        int[][] peli1 = new int[][]{
+            {0,4,2,3,2,5,2},
+            {0,0,2,2,2,2,3},
+            {0,0,0,5,2,2,2},
+            {2,0,0,0,3,2,4},
+            {2,4,0,0,0,2,2},
+            {2,2,2,0,0,0,5},
+            {3,2,4,2,0,0,0},            
+        };
+        
+        System.out.println("TESTI 1");
+        funktiot.tulostaKartta(peli1);
+        System.out.println("lähdetään ruudusta 3:2");
+        System.out.println("tuloksen tulisi olla: 31");
+        System.out.println("funktio palauttaa: " + aly.kulmittaistenLinnojenPisteet(3, 2, peli1));
+        
+        int[][] peli2 = new int[][]{
+            {1,4,2,3,2,5,2},
+            {2,1,2,2,2,2,3},
+            {2,3,0,5,2,2,2},
+            {2,2,2,0,3,2,4},
+            {2,4,2,5,0,2,2},
+            {2,2,2,2,3,1,5},
+            {3,2,4,2,2,3,1},            
+        };
+        
+        System.out.println("TESTI 2");
+        funktiot.tulostaKartta(peli2);
+        System.out.println("lähdetään ruudusta 3:3");
+        System.out.println("tuloksen tulisi olla: 42");
+        System.out.println("funktio palauttaa: " + aly.kulmittaistenLinnojenPisteet(3, 3, peli2));
+        
+        int[][] peli3 = new int[][]{
+            {1,4,2,3,2,5,2},
+            {2,1,2,2,2,0,3},
+            {4,2,0,5,0,2,2},
+            {2,3,2,0,3,2,4},
+            {2,2,1,2,0,2,2},
+            {5,1,2,2,2,0,5},
+            {0,5,2,2,2,4,0},            
+        };
+        
+        System.out.println("TESTI 3");
+        funktiot.tulostaKartta(peli3);
+        System.out.println("lähdetään ruudusta 3:3");
+        System.out.println("tuloksen tulisi olla: 0");
+        System.out.println("funktio palauttaa: " + aly.kulmittaistenLinnojenPisteet(3, 3, peli3));
+        
+    
+        int[][] peli4 = new int[][]{
+            {0,4,2,3,2,2,0},
+            {0,0,3,2,2,0,0},
+            {0,0,0,2,1,0,2},
+            {0,1,0,0,0,0,0},
+            {0,0,2,0,2,4,2},
+            {0,2,4,1,0,2,5},
+            {2,3,2,0,0,0,2},            
+        };
+        
+        System.out.println("TESTI 4");
+        funktiot.tulostaKartta(peli4);
+        System.out.println("lähdetään ruudusta 3:3");
+        System.out.println("tuloksen tulisi olla: 12");
+        System.out.println("funktio palauttaa: " + aly.kulmittaistenLinnojenPisteet(3, 3, peli4));
+        
+    }
+}

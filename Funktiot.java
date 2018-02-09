@@ -52,7 +52,7 @@ public class Funktiot {
     public void tulostaKartta(int[][] lauta) {
         for (int i = 0; i < lauta.length; i++) {
             for (int j = 0; j < lauta.length; j++) {
-                System.out.print(lauta[i][j] + " ");
+                System.out.format("%4d", lauta[i][j]);
             }
             System.out.println();
         }
@@ -149,7 +149,7 @@ public class Funktiot {
                         if (lauta[rivi1][sara1] == 2) {
                             int[] uusi = new int[]{rivi1, sara1};
                             jono.add(uusi);
-                        } else if (lauta[rivi1][sara1] == 3) {
+                        } else if (lauta[rivi1][sara1] > 2) {
                             int[] uusi = new int[]{rivi1, sara1};
                             jono.add(uusi);
                         }
@@ -203,13 +203,10 @@ public class Funktiot {
                 // Tarkistetaan, että ruutu ei ole laudan ulkopuolella
                 if (voikoMenna(rivi1, sara1, lauta.length)) {
                     if (kaydyt[rivi1][sara1] == false) {
-                        if (lauta[rivi1][sara1] == 2) {
+                        if (lauta[rivi1][sara1] > 1) {
                             int[] uusi = new int[]{rivi1, sara1};
                             jono.add(uusi);
-                        } else if (lauta[rivi1][sara1] == 3) {
-                            int[] uusi = new int[]{rivi1, sara1};
-                            jono.add(uusi);
-                        }
+                        } 
                     }
                 }
             }

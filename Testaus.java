@@ -1,8 +1,6 @@
 
 package tiralabrapeli;
 
-import java.util.Arrays;
-
 public class Testaus {
     Funktiot funktiot;
     

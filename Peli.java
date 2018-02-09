@@ -15,7 +15,7 @@ public class Peli {
         this.scanner = new Scanner(System.in);
         // Tähän tulee erilliset listat pelaajille ja mahdollisille tekoälyille
     }
-
+    /*
     // Pelin käyttöliittymä, koodin pitäisi selittää itse itseään IMO
     public void pelaa(int koko, int seuraajienMaara, int laattojenMaara) {
 
@@ -120,5 +120,5 @@ public class Peli {
             }
         }
         return lauta;
-    }
+    }*/
 }
