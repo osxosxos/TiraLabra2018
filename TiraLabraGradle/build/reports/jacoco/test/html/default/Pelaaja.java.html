@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Pelaaja.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TiraLabraGradle</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Pelaaja.java</span></div><h1>Pelaaja.java</h1><pre class="source lang-java linenums">
+/**
+ * TÃ¤ssÃ¤ luokassa on tiedot pelaajasta. Pelaajalla on numero, joka kertoo mitkÃ¤
+ * seuraajat laudalla tuottavat hÃ¤nelle pisteitÃ¤. Pelaajalla on seuraajia aluksi
+ * vakiomÃ¤Ã¤rÃ¤, eli 10. TÃ¤mÃ¤ mÃ¤Ã¤rÃ¤ vÃ¤henee pelin aikana, kun pelaajat asettavat
+ * seuraajiaan linnoihin. Pelaajan pisteet ovat aluksi nolla. Niiden mÃ¤Ã¤rÃ¤
+ * kasvaa pelin aikana, kun linnoja tulee valmiiksi. Lopuksi jokainen ei-valmis '
+ * linna tuottaa myÃ¶s pisteitÃ¤. Pelaajan boolean/arvot kertovat pelaajan
+ * identiteetin, eli funktiot, joita pelaajalla on k
+ *
+ * @author Oskari Koskinen
+ */
+public class Pelaaja {
+
+    int numero;
+    int seuraajat;
+    int pisteet;
+    boolean ihminen;
+    boolean detTekoAly;
+    boolean peliPuuTekoAly;
+
+<span class="fc" id="L22">    public Pelaaja(int numero, boolean ihm, boolean det, boolean puu) {</span>
+<span class="fc" id="L23">        this.numero = numero;</span>
+<span class="fc" id="L24">        this.seuraajat = 10;</span>
+<span class="fc" id="L25">        this.pisteet = 0;</span>
+<span class="fc" id="L26">        this.ihminen = ihm;</span>
+<span class="fc" id="L27">        this.detTekoAly = det;</span>
+<span class="fc" id="L28">        this.peliPuuTekoAly = puu;</span>
+<span class="fc" id="L29">    }</span>
+
+    /**
+     * LisÃ¤Ã¤ pelaajalle halutun mÃ¤Ã¤rÃ¤n pisteitÃ¤.
+     *
+     * @param x Pisteet, jotka pelaaja tulee saamaan.
+     */
+    public void lisaaPisteita(int x) {
+<span class="fc" id="L37">        this.pisteet = this.pisteet + x;</span>
+<span class="fc" id="L38">    }</span>
+
+    /**
+     * Asettaa pelaajalle halutun vakiomÃ¤Ã¤rÃ¤n seuraajia.
+     *
+     * @param x Seuraajien mÃ¤Ã¤rÃ¤, joka asetetaan.
+     */
+    public void asetaSeuraajienMaara(int x) {
+<span class="fc" id="L46">        this.seuraajat = x;</span>
+<span class="fc" id="L47">    }</span>
+
+    /**
+     * LisÃ¤Ã¤ seuraajia halutun mÃ¤Ã¤rÃ¤n.
+     *
+     * @param x
+     */
+    public void lisaaSeuraajia(int x) {
+<span class="fc" id="L55">        this.seuraajat = this.seuraajat + x;</span>
+<span class="fc" id="L56">    }</span>
+
+    /**
+     * Palauttaa pelaajan seuraajien mÃ¤Ã¤rÃ¤n.
+     *
+     * @return Pelaajalla olevien seuraajien mÃ¤Ã¤rÃ¤.
+     */
+    public int getSeuraajat() {
+<span class="fc" id="L64">        return seuraajat;</span>
+    }
+
+    /**
+     * Kertoo pelaajan numeron.
+     *
+     * @return Palauttaa pelaajan numerotunnuksen.
+     */
+    public int getNumero() {
+<span class="fc" id="L73">        return numero;</span>
+    }
+
+    /**
+     * Kertoo onko pelaaja ihminen.
+     *
+     * @return Palauttaa arvon true, jos pelaaja on ihminen. Muulloin false.
+     */
+    public boolean isIhminen() {
+<span class="fc" id="L82">        return ihminen;</span>
+    }
+
+    /**
+     * Kertoo onko pelaaja determistinen tekoÃ¤ly.
+     *
+     * @return Palauttaa arvon true, jos pelaaja on determistinen tekoÃ¤ly.
+     * Muulloin palauttaa arvon false.
+     */
+    public boolean isDetTekoAly() {
+<span class="fc" id="L92">        return detTekoAly;</span>
+    }
+
+    /**
+     * Kertoo onko pelaaja pelipuutekoÃ¤ly.
+     *
+     * @return Palauttaa arvon true, jos pelaaja on pelipuutekoÃ¤ly. Muulloin
+     * palauttaa arvon false.
+     */
+    public boolean isPeliPuuTekoAly() {
+<span class="fc" id="L102">        return peliPuuTekoAly;</span>
+    }
+    
+    /**
+     * Palauttaa pelaajan pisteet. 
+     * @return Palauttaa int muuttujan, joka on pelaajan pisteet. 
+     */
+    public int getPisteet() {
+<span class="fc" id="L110">        return pisteet;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

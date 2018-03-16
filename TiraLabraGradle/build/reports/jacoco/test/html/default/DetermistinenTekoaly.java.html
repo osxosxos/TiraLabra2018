@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>DetermistinenTekoaly.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TiraLabraGradle</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">DetermistinenTekoaly.java</span></div><h1>DetermistinenTekoaly.java</h1><pre class="source lang-java linenums">
+/**
+ * TÃ¤mÃ¤ luokka kuvaa determististÃ¤ tekoÃ¤lyÃ¤, joka pelaa peliÃ¤ heuristisen
+ * matriisin avulla. Heuristisen matriisin laskemisessa otetaan huomioon
+ * linnoissa olevat pisteet, vihollisten seuraajat ja pelaajan omat seuraajat.
+ * TÃ¤mÃ¤ tekoÃ¤ly on nopea ja yksinkertainen. Se tekee pÃ¤Ã¤tÃ¶ksen vÃ¤littÃ¶mÃ¤n
+ * tilanteen perusteella, eikÃ¤ laske peliÃ¤ eteenpÃ¤in, toisin kuin edistyneempi
+ * pelipuuta kÃ¤yttÃ¤vÃ¤ tekoÃ¤ly.
+ *
+ * @author Oskari Koskinen
+ */
+public class DetermistinenTekoaly {
+
+    private Funktiot funktiot;
+
+<span class="fc" id="L16">    public DetermistinenTekoaly() {</span>
+<span class="fc" id="L17">        this.funktiot = new Funktiot();</span>
+<span class="fc" id="L18">    }</span>
+
+    /**
+     * TÃ¤mÃ¤ funktio laskee heuristisen matriisin, joka kuvaa sitÃ¤ kuinka paljon
+     * pisteitÃ¤ tekoÃ¤ly voi potentiaalisesti saada sijoittamalla linnan ruutuun.
+     * Piste arvot eivÃ¤t ole absoluuttisia, vaan niitÃ¤ on painotettu siten, ettÃ¤
+     * tekoÃ¤lyn mahdollisuus sijoittaa linnalaatta vastustajaa hyÃ¶dyttÃ¤vÃ¤Ã¤n
+     * ruutuun olisi mahdollisimman pieni. *
+     *
+     * @param pelaajat PelissÃ¤ mukana olevien pelaajien numerot
+     * @param lauta Pelitilanne, jota tekoÃ¤ly arvioi.
+     * @param pelaaja TekoÃ¤lyn numero, jonka eduksi matriisi lasketaan.
+     * @return Palauttaa sijoitusmatriisin, jolla tekoÃ¤ly sijoittaa linnalaatan.
+     */
+    public int[][] linnanSijoitusMatriisi(int[] pelaajat, int[][] lauta, int pelaaja) {
+
+<span class="fc" id="L34">        int[][] matrix = new int[lauta.length][lauta.length];</span>
+
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        for (int i = 0; i &lt; lauta.length; i++) {</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">            for (int j = 0; j &lt; lauta.length; j++) {</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">                if (lauta[i][j] == 0) {</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">                    if (funktiot.vieressaOnLinna(i, j, lauta)) {</span>
+
+                        // Jos lÃ¶ydetÃ¤Ã¤n ruutu, jonka vieressÃ¤ on linna,
+                        // selvitetÃ¤Ã¤n montako pistettÃ¤ ja seuraajaa siihen 
+                        // on sijoitettu.
+<span class="fc" id="L44">                        int[][] seur = funktiot.ruudunViereistenLinnojenSeuraajat(i, j, pelaajat, lauta);</span>
+<span class="fc" id="L45">                        int pist = funktiot.viereistenLinnojenPisteet(i, j, lauta);</span>
+<span class="fc" id="L46">                        int pelaajanSeuraajat = 0;</span>
+<span class="fc" id="L47">                        int maxSeuraajat = 0;</span>
+
+                        // Lasketaan montako seuraajaa tekoÃ¤lyllÃ¤ ja eniten 
+                        // eniten seuraajia linnassa olevalla pelaajalla on.
+                        // Huomaa, ettÃ¤ pelaajien numerot ovat rivillÃ¤ 0 ja 
+                        // viereisissÃ¤ linnoissa olevat seuraajat rivillÃ¤ 1. 
+<span class="fc bfc" id="L53" title="All 2 branches covered.">                        for (int k = 0; k &lt; seur.length; k++) {</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">                            if (seur[0][k] == pelaaja) {</span>
+<span class="fc" id="L55">                                pelaajanSeuraajat = seur[1][k];</span>
+                            }
+<span class="fc bfc" id="L57" title="All 4 branches covered.">                            if (seur[1][k] &gt; maxSeuraajat &amp;&amp; seur[0][k] != pelaaja) {</span>
+<span class="fc" id="L58">                                maxSeuraajat = seur[1][k];</span>
+                            }
+                        }
+
+                        // Lasketaan kerroin, jos linna on tekoÃ¤lyn dominoiva,
+                        // kerroin on positiivinen, muulloin negatiivinen.
+<span class="fc" id="L64">                        int erotus = pelaajanSeuraajat - maxSeuraajat;</span>
+<span class="fc" id="L65">                        int kerroin = erotus * pist;</span>
+<span class="fc" id="L66">                        matrix[i][j] = kerroin;</span>
+
+                    }
+
+<span class="fc bfc" id="L70" title="All 4 branches covered.">                    if (!funktiot.vieressaOnLinna(i, j, lauta) &amp;&amp; funktiot.kulmassaOnLinna(i, j, lauta)) {</span>
+
+                        // Jos vain ruudun kulmissa on linna, tekoÃ¤ly pyrkii 
+                        // lisÃ¤Ã¤mÃ¤Ã¤n seuraajia, mutta vain, jos linna on
+                        // mahdollista pitÃ¤Ã¤ omassa hallinnassa. 
+<span class="fc" id="L75">                        int[][] seur = funktiot.seuraajatKulmittainLinnoissa(i, j, pelaajat, lauta);</span>
+<span class="fc" id="L76">                        int pist = funktiot.kulmittaistenLinnojenPisteet(i, j, lauta);</span>
+<span class="fc" id="L77">                        int pelaajanSeuraajat = 0;</span>
+<span class="fc" id="L78">                        int maxSeuraajat = 0;</span>
+
+                        // Lasketaan montako seuraajaa tekoÃ¤lyllÃ¤ ja eniten 
+                        // eniten seuraajia linnassa olevalla pelaajalla on.
+                        // Huomaa, ettÃ¤ pelaajien numerot ovat rivillÃ¤ 0 ja 
+                        // viereisissÃ¤ linnoissa olevat seuraajat rivillÃ¤ 1. 
+<span class="fc bfc" id="L84" title="All 2 branches covered.">                        for (int k = 0; k &lt; seur.length; k++) {</span>
+
+<span class="fc bfc" id="L86" title="All 2 branches covered.">                            if (seur[0][k] == pelaaja) {</span>
+<span class="fc" id="L87">                                pelaajanSeuraajat = seur[1][k];</span>
+                            }
+<span class="fc bfc" id="L89" title="All 4 branches covered.">                            if (seur[1][k] &gt; maxSeuraajat &amp;&amp; seur[0][k] != pelaaja) {</span>
+<span class="fc" id="L90">                                maxSeuraajat = seur[1][k];</span>
+                            }
+
+                        }
+
+                        // Kerroin on painotettu siten, ettÃ¤ kulmaan linnan 
+                        // asettaminen saa suuremman painon kuin linnan viereen
+                        // uuden laatan asettaminen. 
+<span class="fc" id="L98">                        int erotus = pelaajanSeuraajat - maxSeuraajat + 1;</span>
+<span class="fc" id="L99">                        int kerroin = erotus * pist + pist;</span>
+<span class="fc" id="L100">                        matrix[i][j] = kerroin;</span>
+
+                    }
+                }
+            }
+        }
+
+<span class="fc" id="L107">        matrix = tasaaMatriisinPainot(matrix, lauta);</span>
+<span class="fc" id="L108">        return matrix;</span>
+    }
+
+    /**
+     * Toimii samalla periaatteella kuin linnansijoitusmatriisi. TÃ¤mÃ¤n funktion
+     * tarkoitus on opastaa tekoÃ¤ly suojelemaan pelloilla omaa linnaansa.
+     *
+     * @param pelaajat PelissÃ¤ olevien pelaajien numerot.
+     * @param lauta Pelitilanne ennen tekoÃ¤lyn siirtoa.
+     * @param pelaaja TekoÃ¤lyn numero.
+     * @return Palauttaa matriisin, joka ohjaa tekoÃ¤lyn pellonsijoitusta.
+     */
+    public int[][] pellonSijoitusMatriisi(int[] pelaajat, int[][] lauta, int pelaaja) {
+
+<span class="fc" id="L122">        int[][] matrix = new int[lauta.length][lauta.length];</span>
+
+<span class="fc bfc" id="L124" title="All 2 branches covered.">        for (int i = 0; i &lt; lauta.length; i++) {</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">            for (int j = 0; j &lt; lauta.length; j++) {</span>
+<span class="fc bfc" id="L126" title="All 2 branches covered.">                if (lauta[i][j] == 0) {</span>
+
+<span class="fc bfc" id="L128" title="All 2 branches covered.">                    if (funktiot.kulmassaTaiVieressaOnLinna(i, j, lauta)) {</span>
+
+                        // Jos lÃ¶ydetÃ¤Ã¤n ruutu, jossa on useita linnoja vieressÃ¤
+                        // ja kulmissa, tekoÃ¤ly pyrkii suojelemaan sijoituksiaan.
+                        // Pelloilla voi estÃ¤Ã¤ omien linnojen valtaamisen.
+                        // Jos linnoissa ei ole tekoÃ¤lyn seuraajia, tekoÃ¤ly ei 
+                        // vaivaudu suojelemaan niitÃ¤ pelloilla. 
+<span class="fc" id="L135">                        int[][] kaikSeur = funktiot.seuraajatVieressaJaKulmissa(i, j, pelaajat, lauta);</span>
+<span class="fc" id="L136">                        int totalPist = funktiot.pisteetVieressaJaKulmissa(i, j, lauta);</span>
+
+<span class="fc" id="L138">                        int pelaajanSeuraajat = 0;</span>
+<span class="fc" id="L139">                        int maxSeuraajat = 0;</span>
+
+                        // SelvitetÃ¤Ã¤n paljonko tekoÃ¤lyllÃ¤ ja eniten seuraajia 
+                        // linnassa omistavalla pelaajalla on seuraajia. 
+<span class="fc bfc" id="L143" title="All 2 branches covered.">                        for (int k = 0; k &lt; pelaajat.length; k++) {</span>
+
+<span class="fc bfc" id="L145" title="All 2 branches covered.">                            if (kaikSeur[0][k] == pelaaja) {</span>
+<span class="fc" id="L146">                                pelaajanSeuraajat = kaikSeur[1][k];</span>
+                            }
+
+<span class="fc bfc" id="L149" title="All 4 branches covered.">                            if (kaikSeur[1][k] &gt; maxSeuraajat &amp;&amp; kaikSeur[0][k] != pelaaja) {</span>
+<span class="fc" id="L150">                                maxSeuraajat = kaikSeur[1][k];</span>
+                            }
+
+                        }
+
+                        // TÃ¤ssÃ¤ tilanne, jossa jollain muulla pelaajalla on 
+                        // enemmÃ¤n seuraajia kuin tekoÃ¤lyllÃ¤ saa suurimman arvon,
+                        // koska se viestii tarpeesta suojella omaa linnaa. 
+<span class="fc bfc" id="L158" title="All 2 branches covered.">                        if (pelaajanSeuraajat == 0) {</span>
+<span class="fc" id="L159">                            matrix[i][j] = 0;</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">                        } else if (pelaajanSeuraajat &gt; maxSeuraajat) {</span>
+<span class="fc" id="L161">                            matrix[i][j] = totalPist * pelaajanSeuraajat;</span>
+                        } else {
+<span class="fc" id="L163">                            matrix[i][j] = maxSeuraajat * pelaajanSeuraajat * totalPist;</span>
+                        }
+
+                    }
+
+<span class="fc bfc" id="L168" title="All 4 branches covered.">                    if (funktiot.vieressaOnLinna(i, j, lauta) &amp;&amp; !funktiot.kulmassaOnLinna(i, j, lauta)) {</span>
+
+                        // Jos ollaan tilanteessa, jossa useampi linna voi 
+                        // yhdistyÃ¤ yhden laatan pelaamisella, tekoÃ¤ly pyrkii
+                        // estÃ¤mÃ¤Ã¤n linnan omistuksen menettÃ¤misen.
+<span class="fc" id="L173">                        int[][] seur = funktiot.ruudunViereistenLinnojenSeuraajat(i, j, pelaajat, lauta);</span>
+<span class="fc" id="L174">                        int pist = funktiot.viereistenLinnojenPisteet(i, j, lauta);</span>
+<span class="fc" id="L175">                        int pelaajanSeuraajat = 0;</span>
+<span class="fc" id="L176">                        int maxSeuraajat = 0;</span>
+
+                        // SelvitetÃ¤Ã¤n paljonko tekoÃ¤lyllÃ¤ ja eniten seuraajia 
+                        // linnassa omistavalla pelaajalla on seuraajia. 
+<span class="fc bfc" id="L180" title="All 2 branches covered.">                        for (int k = 0; k &lt; seur.length; k++) {</span>
+
+<span class="fc bfc" id="L182" title="All 2 branches covered.">                            if (seur[0][k] == pelaaja) {</span>
+<span class="fc" id="L183">                                pelaajanSeuraajat = seur[1][k];</span>
+                            }
+
+<span class="fc bfc" id="L186" title="All 4 branches covered.">                            if (seur[1][k] &gt; maxSeuraajat &amp;&amp; seur[0][k] != pelaaja) {</span>
+<span class="fc" id="L187">                                maxSeuraajat = seur[1][k];</span>
+                            }
+                        }
+
+                        // TÃ¤ssÃ¤kin tilanne, jossa vihollisella on suurempi mÃ¤Ã¤rÃ¤
+                        // seuraajia saa suurimman painoarvon. TÃ¤mÃ¤n tarkoitus on 
+                        // saada tekoÃ¤ly suojelemaan sijoituksiaan. 
+<span class="fc bfc" id="L194" title="All 2 branches covered.">                        if (pelaajanSeuraajat == 0) {</span>
+<span class="fc" id="L195">                            matrix[i][j] = 0;</span>
+<span class="fc bfc" id="L196" title="All 2 branches covered.">                        } else if (pelaajanSeuraajat &gt; maxSeuraajat) {</span>
+<span class="fc" id="L197">                            matrix[i][j] = pist * pelaajanSeuraajat;</span>
+                        } else {
+<span class="fc" id="L199">                            matrix[i][j] = maxSeuraajat * pelaajanSeuraajat * pist * 3;</span>
+                        }
+                    }
+
+<span class="fc bfc" id="L203" title="All 4 branches covered.">                    if (!funktiot.vieressaOnLinna(i, j, lauta) &amp;&amp; funktiot.kulmassaOnLinna(i, j, lauta)) {</span>
+
+                        // TÃ¤ssÃ¤ tekoÃ¤ly pyrkii omien linnojen kulmien suojeluun
+                        // peltolaattoja asettamalla. 
+<span class="fc" id="L207">                        int[][] seur = funktiot.seuraajatKulmittainLinnoissa(i, j, pelaajat, lauta);</span>
+<span class="fc" id="L208">                        int pist = funktiot.kulmittaistenLinnojenPisteet(i, j, lauta);</span>
+<span class="fc" id="L209">                        int pelaajanSeuraajat = 0;</span>
+<span class="fc" id="L210">                        int maxSeuraajat = 0;</span>
+
+<span class="fc bfc" id="L212" title="All 2 branches covered.">                        for (int k = 0; k &lt; seur.length; k++) {</span>
+
+<span class="fc bfc" id="L214" title="All 2 branches covered.">                            if (seur[0][k] == pelaaja) {</span>
+<span class="fc" id="L215">                                pelaajanSeuraajat = seur[1][k];</span>
+                            }
+
+<span class="fc bfc" id="L218" title="All 4 branches covered.">                            if (seur[1][k] &gt; maxSeuraajat &amp;&amp; seur[0][k] != pelaaja) {</span>
+<span class="fc" id="L219">                                maxSeuraajat = seur[1][k];</span>
+                            }
+
+                        }
+
+                        // Suurimman arvon saa jÃ¤lleen tilanne, jossa linnojen
+                        // yhdistyminen tekoÃ¤lyn harmiksi on mahdolista. 
+<span class="fc bfc" id="L226" title="All 2 branches covered.">                        if (pelaajanSeuraajat == 0) {</span>
+<span class="fc" id="L227">                            matrix[i][j] = 0;</span>
+<span class="fc bfc" id="L228" title="All 2 branches covered.">                        } else if (pelaajanSeuraajat &gt; maxSeuraajat) {</span>
+<span class="fc" id="L229">                            matrix[i][j] = pist * pelaajanSeuraajat;</span>
+                        } else {
+<span class="fc" id="L231">                            matrix[i][j] = maxSeuraajat * pelaajanSeuraajat * pist;</span>
+                        }
+                    }
+
+                }
+            }
+        }
+
+<span class="fc" id="L239">        matrix = tasaaMatriisinPainot(matrix, lauta);</span>
+<span class="fc" id="L240">        return matrix;</span>
+    }
+
+    /**
+     * TÃ¤mÃ¤ funktio tasapainottaa sijoitusmatriisin painot siten, ettÃ¤ mitÃ¤
+     * enemmÃ¤n kohderuudun ympÃ¤rillÃ¤ on tÃ¤rkeitÃ¤ ruutuja, sitÃ¤ suuremman
+     * painoarvon kyseinen ruutu saa.
+     *
+     * @param matrix SyÃ¶tteenÃ¤ annettu- linnan tai pellonsijoitusmatriisi.
+     * @param lauta Pelitilanne, josta tarkistetaan, ettÃ¤ painoja ei anneta
+     * ruuduille, jotka on jo varattu.
+     * @return Palauttaa painotetun sijoitusmatriisin.
+     */
+    public int[][] tasaaMatriisinPainot(int[][] matrix, int[][] lauta) {
+        
+        // Luodaan uusi matriisi, joka palautetaan.
+<span class="fc" id="L256">        int[][] newMatrix = new int[matrix.length][matrix.length];</span>
+        
+        // NÃ¤mÃ¤ taulukot ovat pelilaudalla navigointia varten. 
+<span class="fc" id="L259">        int[] rivit = new int[]{1, 0, -1, 0, 1, -1, -1, 1};</span>
+<span class="fc" id="L260">        int[] sarak = new int[]{0, 1, 0, -1, 1, -1, 1, -1};</span>
+        
+        // KÃ¤ydÃ¤Ã¤n matriisi lÃ¤pi.
+<span class="fc bfc" id="L263" title="All 2 branches covered.">        for (int i = 0; i &lt; matrix.length; i++) {</span>
+<span class="fc bfc" id="L264" title="All 2 branches covered.">            for (int j = 0; j &lt; matrix.length; j++) {</span>
+                
+                // Painotetaan arvo ympÃ¤rÃ¶ivien ruutujen arvoilla, mutta
+                // vain, jos paikka on kelvollinen pelattavaksi. 
+                
+<span class="fc bfc" id="L269" title="All 2 branches covered.">                if (lauta[i][j] == 0) {</span>
+<span class="fc" id="L270">                    int arvo = matrix[i][j];</span>
+<span class="fc" id="L271">                    newMatrix[i][j] = arvo;</span>
+                    
+<span class="fc bfc" id="L273" title="All 2 branches covered.">                    for (int k = 0; k &lt; 8; k++) {</span>
+<span class="fc" id="L274">                        int uusiRivi = i + rivit[k];</span>
+<span class="fc" id="L275">                        int uusiSarake = j + sarak[k];</span>
+                        
+<span class="fc bfc" id="L277" title="All 2 branches covered.">                        if (funktiot.voikoMenna(uusiRivi, uusiSarake, matrix.length)) {</span>
+<span class="fc" id="L278">                            newMatrix[i][j] = newMatrix[i][j] + matrix[uusiRivi][uusiSarake] / 3;</span>
+                        }
+                        
+                    }
+                }
+            }
+        }
+<span class="fc" id="L285">        return newMatrix;</span>
+    }
+
+    /**
+     * TÃ¤llÃ¤ funktiolla tekoÃ¤ly pelaa linna-laatan sijoitusmatriisin
+     * perusteella. Se pelataan ensimmÃ¤iseen ruutuun, jossa on suurin arvo.
+     *
+     * @param lauta Pelitilanne ennen siirron tekemistÃ¤.
+     * @param pelaaja Pelaajan numero, tarvitaan seuraajan asettamiseen.
+     * @param seuraajat Pelaajalla olevien seuraajien mÃ¤Ã¤rÃ¤.
+     * @param pelaajat PelissÃ¤ mukana olevat pelaajat.
+     * @return Funktio palauttaa pelitilanteen, johon determistinen tekoÃ¤ly on
+     * pelannut linnalaatan ja mahdollisesti siihen myÃ¶s seuraajan.
+     */
+    public int[][] pelaaLinna(int[][] lauta, int pelaaja, int seuraajat, int[] pelaajat) {
+
+        // Sijoitusmatriisi, joka kertoo mihin linna kannattaa pelata.
+<span class="fc" id="L302">        int[][] matrix = linnanSijoitusMatriisi(pelaajat, lauta, pelaaja);</span>
+
+<span class="fc" id="L304">        Lista vapaat = new Lista();</span>
+
+        // EtsitÃ¤Ã¤n vapaat ruudut
+<span class="fc bfc" id="L307" title="All 2 branches covered.">        for (int i = 0; i &lt; lauta.length; i++) {</span>
+<span class="fc bfc" id="L308" title="All 2 branches covered.">            for (int j = 0; j &lt; lauta.length; j++) {</span>
+<span class="fc bfc" id="L309" title="All 2 branches covered.">                if (lauta[i][j] == 0) {</span>
+<span class="fc" id="L310">                    vapaat.add(new int[]{i, j, matrix[i][j]});</span>
+                }
+            }
+        }
+
+<span class="fc" id="L315">        int suurin = Integer.MIN_VALUE;</span>
+
+        // EtsitÃ¤Ã¤n sijoitusmatriisin suurin arvo vapaiden ruutujen joukosta.        
+<span class="fc bfc" id="L318" title="All 2 branches covered.">        for (int i = 0; i &lt; vapaat.size(); i++) {</span>
+            
+<span class="fc" id="L320">            int[] taulu = (int[]) vapaat.get(i);</span>
+            
+<span class="fc bfc" id="L322" title="All 2 branches covered.">            if (taulu[2] &gt;= suurin) {</span>
+<span class="fc" id="L323">                suurin = taulu[2];</span>
+            }
+            
+        }
+        
+        // Sijoitetaan laatta ensimmÃ¤iseen vapaaseen ruutuun. 
+<span class="fc bfc" id="L329" title="All 2 branches covered.">        for (int i = 0; i &lt; vapaat.size(); i++) {</span>
+            
+<span class="fc" id="L331">            int[] taulu = (int[]) vapaat.get(i);</span>
+            
+<span class="fc bfc" id="L333" title="All 2 branches covered.">            if (taulu[2] == suurin) {</span>
+                
+<span class="fc" id="L335">                lauta = funktiot.asetaLaatta(taulu[0], taulu[1], 2, lauta);</span>
+                
+<span class="fc bfc" id="L337" title="All 2 branches covered.">                if (seuraajat &gt; 0) {</span>
+                    
+<span class="fc bfc" id="L339" title="All 2 branches covered.">                    if (!funktiot.onkoLinnassaJoSeuraaja(taulu[0], taulu[1], lauta)) {</span>
+<span class="fc" id="L340">                        lauta = funktiot.asetaSeuraaja(taulu[0], taulu[1], pelaaja, lauta);</span>
+                    }
+                }
+                
+                break;
+            }
+        }
+
+<span class="fc" id="L348">        return lauta;</span>
+    }
+
+    /**
+     * TÃ¤llÃ¤ funktiolla tekoÃ¤ly pelaa pelto-laatan sijoitusmatriisin
+     * perusteella. Se pelataan ensimmÃ¤iseen ruutuun, jossa on suurin arvo.
+     *
+     * @param lauta Pelitilanne ennen siirron tekemistÃ¤.
+     * @param pelaaja Pelaajan numero, tarvitaan seuraajan asettamiseen.
+     * @param pelaajat PelissÃ¤ mukana olevat pelaajat.
+     * @return Funktio palauttaa pelitilanteen, johon determistinen tekoÃ¤ly on
+     * pelannut pelto-laatan.
+     */
+    public int[][] pelaaPelto(int[][] lauta, int pelaaja, int[] pelaajat) {
+
+        // Sijoitusmatriisi, joka kertoo mihin pelto kannattaa pelata.
+<span class="fc" id="L364">        int[][] matrix = pellonSijoitusMatriisi(pelaajat, lauta, pelaaja);</span>
+
+        // EtsitÃ¤Ã¤n ensin sijoitusmatriisin maksimiarvo.
+<span class="fc" id="L367">        Lista vapaat = new Lista();</span>
+        
+        // EtsitÃ¤Ã¤n listaan vapaat ruudut. 
+<span class="fc bfc" id="L370" title="All 2 branches covered.">        for (int i = 0; i &lt; lauta.length; i++) {</span>
+<span class="fc bfc" id="L371" title="All 2 branches covered.">            for (int j = 0; j &lt; lauta.length; j++) {</span>
+                
+<span class="fc bfc" id="L373" title="All 2 branches covered.">                if (lauta[i][j] == 0) {</span>
+<span class="fc" id="L374">                    vapaat.add(new int[]{i, j, matrix[i][j]});</span>
+                }
+            }
+        }
+
+<span class="fc" id="L379">        int suurin = Integer.MIN_VALUE;</span>
+        
+        // EtsitÃ¤Ã¤n vapaiden ruutujen joukosta sijoitusmatriisin suurin arvo.
+<span class="fc bfc" id="L382" title="All 2 branches covered.">        for (int i = 0; i &lt; vapaat.size(); i++) {</span>
+<span class="fc" id="L383">            int[] taulu = (int[]) vapaat.get(i);</span>
+<span class="fc bfc" id="L384" title="All 2 branches covered.">            if (taulu[2] &gt;= suurin) {</span>
+<span class="fc" id="L385">                suurin = taulu[2];</span>
+            }
+        }
+
+        // Pelataan tÃ¤tÃ¤ vastaavaan ruutuun annettu laatta. 
+<span class="fc bfc" id="L390" title="All 2 branches covered.">        for (int i = 0; i &lt; vapaat.size(); i++) {</span>
+<span class="fc" id="L391">            int[] taulu = (int[]) vapaat.get(i);</span>
+<span class="fc bfc" id="L392" title="All 2 branches covered.">            if (taulu[2] == suurin) {</span>
+<span class="fc" id="L393">                lauta = funktiot.asetaLaatta(taulu[0], taulu[1], 1, lauta);</span>
+<span class="fc" id="L394">                break;</span>
+            }
+        }
+
+<span class="fc" id="L398">        return lauta;</span>
+
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
