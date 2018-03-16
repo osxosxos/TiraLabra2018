@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Pino.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TiraLabraGradle</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Pino.java</span></div><h1>Pino.java</h1><pre class="source lang-java linenums">
+/**
+ * Pino -tietorakenne pelin funktioiden ja tekoÃ¤lyjen kÃ¤yttÃ¶Ã¶n.
+ *
+ * @author Oskari Koskinen
+ */
+public class Pino {
+
+    private Object[] taulukko;
+    private int paallimmainen;
+    private int kapasiteetti;
+
+<span class="fc" id="L13">    public Pino() {</span>
+<span class="fc" id="L14">        this.paallimmainen = -1;</span>
+<span class="fc" id="L15">        this.taulukko = new Object[10];</span>
+<span class="fc" id="L16">        this.kapasiteetti = 10;</span>
+<span class="fc" id="L17">    }</span>
+
+    /**
+     * Ottaa pinosta pÃ¤Ã¤llimmÃ¤isen objektin.
+     *
+     * @return Palauttaa pinon pÃ¤Ã¤llimmÃ¤isen objektin.
+     */
+    public Object pop() {
+<span class="fc" id="L25">        Object pois = this.taulukko[paallimmainen];</span>
+<span class="fc" id="L26">        this.paallimmainen--;</span>
+<span class="fc" id="L27">        return pois;</span>
+    }
+
+    /**
+     * Laittaa pinon pÃ¤Ã¤lle uuden objektin.
+     *
+     * @param object Pinoon laitettava objekti.
+     */
+    public void push(Object object) {
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        if (this.paallimmainen + 1 == this.kapasiteetti) {</span>
+<span class="fc" id="L37">            Object[] uusi = new Object[this.kapasiteetti + 10];</span>
+<span class="fc bfc" id="L38" title="All 2 branches covered.">            for (int i = 0; i &lt; this.taulukko.length; i++) {</span>
+<span class="fc" id="L39">                uusi[i] = taulukko[i];</span>
+            }
+<span class="fc" id="L41">            this.taulukko = uusi;</span>
+<span class="fc" id="L42">            this.kapasiteetti = this.kapasiteetti + 10;</span>
+        }
+
+<span class="fc" id="L45">        this.paallimmainen++;</span>
+<span class="fc" id="L46">        this.taulukko[paallimmainen] = object;</span>
+<span class="fc" id="L47">    }</span>
+
+    /**
+     * Kertoo onko pino tyhjÃ¤.
+     *
+     * @return Palauttaa arvon true, jos pino on tyhjÃ¤
+     */
+    public boolean empty() {
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        return this.paallimmainen == -1;</span>
+    }
+
+    /**
+     * Kertoo montako objektia pinossa on
+     *
+     * @return
+     */
+    public int size() {
+<span class="fc" id="L64">        return this.paallimmainen + 1;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

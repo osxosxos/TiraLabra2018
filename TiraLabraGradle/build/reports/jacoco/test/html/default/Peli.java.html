@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fi"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Peli.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TiraLabraGradle</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">Peli.java</span></div><h1>Peli.java</h1><pre class="source lang-java linenums">
+import java.util.Scanner;
+
+/**
+ * TÃ¤ssÃ¤ luokassa on pelin kÃ¤yttÃ¶liittymÃ¤ ja joitakin oleellisia toimintoja,
+ * joita tarvitaan pelin aikana kaikkien siirtojen jÃ¤lkeen.
+ *
+ * @author Oskari Koskinen
+ */
+public class Peli {
+
+    Scanner scanner;
+    Funktiot funktiot;
+    int[][] lauta;
+    boolean[][] kaydyt;
+    int pelaajat[];
+    Lista pelaajienTiedot;
+    Pino laatat;
+    Ihminen ihminen;
+    DetermistinenTekoaly detAly;
+    PeliPuuTekoAly puuAly;
+
+<span class="fc" id="L23">    public Peli() {</span>
+<span class="fc" id="L24">        this.funktiot = new Funktiot();</span>
+<span class="fc" id="L25">        this.scanner = new Scanner(System.in);</span>
+<span class="fc" id="L26">        this.lauta = new int[0][0];</span>
+<span class="fc" id="L27">        this.kaydyt = new boolean[0][0];</span>
+<span class="fc" id="L28">        this.pelaajat = new int[0];</span>
+<span class="fc" id="L29">        this.pelaajienTiedot = new Lista();</span>
+<span class="fc" id="L30">        this.laatat = new Pino();</span>
+<span class="fc" id="L31">        this.ihminen = new Ihminen();</span>
+<span class="fc" id="L32">        this.detAly = new DetermistinenTekoaly();</span>
+<span class="fc" id="L33">        this.puuAly = new PeliPuuTekoAly();</span>
+<span class="fc" id="L34">    }</span>
+
+    /**
+     * Asettaa pelin perus asetukset.
+     */
+    public void asetaPelinAsetukset() {
+
+        // KysytÃ¤Ã¤n laudan koko ja asetetaan se. 
+<span class="nc" id="L42">        int koko = this.kysyLaudanKoko();</span>
+<span class="nc" id="L43">        this.lauta = this.asetaLaudanKoko(koko);</span>
+<span class="nc" id="L44">        this.kaydyt = this.asetaKaydytKoko(koko);</span>
+
+        // Asetetaan keskelle lautaa yksi linna-laatta. 
+<span class="nc" id="L47">        this.lauta[koko / 2][koko / 2] = 2;</span>
+
+        // Asetetaan pakan koko ja sekoitetaan. 
+<span class="nc" id="L50">        int pakanKoko = this.kysyPakanKoko(koko);</span>
+<span class="nc" id="L51">        this.laatat = this.asetaPakanKoko(pakanKoko - 1);</span>
+
+        // Luodaan taulukko ja lista halutun pelaajamÃ¤Ã¤rÃ¤n perusteella. 
+<span class="nc" id="L54">        int pelaajia = kysyPelaajienMaara();</span>
+<span class="nc" id="L55">        this.pelaajat = funktiot.luoPelaajaTaulu(pelaajia);</span>
+<span class="nc" id="L56">        this.pelaajienTiedot = new Lista();</span>
+<span class="nc" id="L57">        this.maaritaPelaajienIdentiteetit(this.pelaajat, this.pelaajienTiedot);</span>
+
+        // Kerrotaan pelaajalle, ettÃ¤ kaikki on valmista. 
+<span class="nc" id="L60">        System.out.println(&quot;Kaikki on nyt valmista!&quot;);</span>
+<span class="nc" id="L61">        System.out.println(&quot;Peli alkaa!&quot;);</span>
+<span class="nc" id="L62">        System.out.println(&quot;&quot;);</span>
+<span class="nc" id="L63">    }</span>
+
+    /**
+     * TÃ¤ssÃ¤ pyÃ¶rii varsinainen peli, kunnes laatat loppuvat.
+     */
+    public void pelaa() {
+
+        // Pelin aloittaa pelaaja numero 3, eli listan indeksi 0. 
+<span class="nc" id="L71">        int vuoro = 0;</span>
+
+        // PeliÃ¤ jatketaan, kunnes laattoja ei enÃ¤Ã¤ ole.
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        while (!this.laatat.empty()) {</span>
+
+            // Raportoidaan pelaajalle tilanne.  
+<span class="nc" id="L77">            this.tilanne(vuoro, this.lauta);</span>
+<span class="nc" id="L78">            this.valiRaportti(this.pelaajienTiedot);</span>
+<span class="nc" id="L79">            System.out.println(&quot;laattoja on jÃ¤ljellÃ¤ &quot; + this.laatat.size());</span>
+
+            // Otetaan esiin vuorossa olevan pelaajan tiedot.
+<span class="nc" id="L82">            Pelaaja vuorossaOleva = (Pelaaja) pelaajienTiedot.get(vuoro);</span>
+
+            // Otetaan esiin pelaajan tunnusluku ja seuraajien mÃ¤Ã¤rÃ¤.  
+<span class="nc" id="L85">            int pSeuraajat = vuorossaOleva.getSeuraajat();</span>
+<span class="nc" id="L86">            int pNumero = vuorossaOleva.getNumero();</span>
+
+            // Otetaan jonosta seuraava laatta.
+<span class="nc" id="L89">            int seuraava = (int) this.laatat.pop();</span>
+
+            // Kopioidaan pelitilanne.
+<span class="nc" id="L92">            int[][] kopio = funktiot.kopioiKartta(lauta);</span>
+
+            // Katsotaan vuorossa olevan pelaajan identiteetti.
+            // Kutsutaan haluttuja funktioita ja tehdÃ¤Ã¤n siirto. 
+<span class="nc bnc" id="L96" title="All 2 branches missed.">            if (vuorossaOleva.isDetTekoAly()) {</span>
+
+<span class="nc bnc" id="L98" title="All 2 branches missed.">                if (seuraava == 1) {</span>
+<span class="nc" id="L99">                    this.lauta = this.detAly.pelaaPelto(this.lauta, pNumero, this.pelaajat);</span>
+                } else {
+<span class="nc" id="L101">                    this.lauta = this.detAly.pelaaLinna(lauta, pNumero, pSeuraajat, pelaajat);</span>
+                }
+
+<span class="nc bnc" id="L104" title="All 2 branches missed.">            } else if (vuorossaOleva.isIhminen()) {</span>
+
+<span class="nc bnc" id="L106" title="All 2 branches missed.">                if (seuraava == 1) {</span>
+<span class="nc" id="L107">                    this.lauta = this.ihminen.pelaaPelto(this.lauta);</span>
+                } else {
+<span class="nc" id="L109">                    this.lauta = this.ihminen.pelaaLinna(pNumero, pSeuraajat, this.lauta);</span>
+                }
+
+<span class="nc bnc" id="L112" title="All 2 branches missed.">            } else if (vuorossaOleva.isPeliPuuTekoAly()) {</span>
+
+<span class="nc bnc" id="L114" title="All 2 branches missed.">                if (seuraava == 1) {</span>
+<span class="nc" id="L115">                    this.lauta = this.puuAly.sijoitaPelto(pNumero, this.pelaajat, this.lauta);</span>
+                } else {
+<span class="nc" id="L117">                    this.lauta = this.puuAly.sijoitaLinna(pNumero, pSeuraajat, this.pelaajat, this.lauta);</span>
+                }
+
+            }
+
+            // VÃ¤hennetÃ¤Ã¤n seuraaja siirron tehneeltÃ¤ pelaajalta, jos hÃ¤n on asettanut seuraajan. 
+<span class="nc" id="L123">            this.vahennaSeuraajaJosAsetettu(pNumero, vuoro, kopio, lauta, pelaajienTiedot);</span>
+
+            // PÃ¤ivitetÃ¤Ã¤n pelin tilanne, eli annetaan pisteet valmiista linnoista jne...
+<span class="nc" id="L126">            this.paivita(this.pelaajat, this.lauta, this.kaydyt, this.pelaajienTiedot);</span>
+
+            // Vaihdetaan vuorossa olevaa pelajaa. 
+<span class="nc" id="L129">            vuoro = this.vaihdaVuoro(vuoro, pelaajat);</span>
+<span class="nc" id="L130">        }</span>
+
+        // Lasketaan loppupisteet
+<span class="nc" id="L133">        loppuPisteet(this.pelaajat, this.lauta, this.kaydyt, this.pelaajienTiedot);</span>
+
+        // Julistetaan lopputulos. 
+<span class="nc" id="L136">        loppuTulos(this.lauta, this.pelaajienTiedot);</span>
+<span class="nc" id="L137">    }</span>
+
+    /**
+     * Jos vuorossa on viimeinen pelaaja, siirrytÃ¤Ã¤n ensimmÃ¤iseen, eli arvoon
+     * nolla. Muulloin kasvatetaan vuoron arvoa yhdellÃ¤.
+     *
+     * @param vuoro Edellisen vuoron tehnyt pelaaja.
+     * @param pelaajat Taulukko, jossa on pelaajien numerot.
+     * @return Palauttaa seuraavan vuoron numeron.
+     */
+    public int vaihdaVuoro(int vuoro, int[] pelaajat) {
+<span class="fc bfc" id="L148" title="All 2 branches covered.">        if (vuoro == pelaajat.length - 1) {</span>
+<span class="fc" id="L149">            vuoro = 0;</span>
+        } else {
+<span class="fc" id="L151">            vuoro++;</span>
+        }
+<span class="fc" id="L153">        return vuoro;</span>
+    }
+
+    /**
+     * TÃ¤mÃ¤ funktio pisteyttÃ¤Ã¤ pelin lopussa linnat, jotka eivÃ¤t ole valmiita.
+     * Linnoista, jotka eivÃ¤t ole valmiita pelin lopussa, ei poisteta seuraajia,
+     * mutta niistÃ¤ saa pisteitÃ¤ kaikki, joilla on eniten seuraajia linnassa.
+     *
+     * @param pelaajat Taulukko, jossa on pelaajien numerot.
+     * @param lauta Pelitilanne viimeisen siirron jÃ¤lkeen.
+     * @param kaydyt Ruudut, joista on saatu pisteet pelin aikana.
+     * @param tiedot Lista, jossa on pelaajien tiedot.
+     */
+    public void loppuPisteet(int[] pelaajat, int[][] lauta, boolean[][] kaydyt, Lista tiedot) {
+
+        // KÃ¤ydÃ¤Ã¤n koko ruudukko lÃ¤pi.
+<span class="fc bfc" id="L169" title="All 2 branches covered.">        for (int i = 0; i &lt; lauta.length; i++) {</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">            for (int j = 0; j &lt; lauta.length; j++) {</span>
+
+                // EtsitÃ¤Ã¤n ruutuja, joita ei ole pisteytetty.
+<span class="fc bfc" id="L173" title="All 2 branches covered.">                if (!kaydyt[i][j]) {</span>
+
+                    // EtsitÃ¤Ã¤n ruutuja, jotka ovat osa linnaa. 
+<span class="fc bfc" id="L176" title="All 2 branches covered.">                    if (lauta[i][j] &gt; 1) {</span>
+
+                        // Jos linnassa on seuraajia, siitÃ¤ ei ole annettu pisteitÃ¤. 
+<span class="fc bfc" id="L179" title="All 2 branches covered.">                        if (funktiot.onkoLinnassaJoSeuraaja(i, j, lauta)) {</span>
+
+                            // Lasketaan pisteet.
+<span class="fc" id="L182">                            int[][] pisteet = funktiot.pelaajillePisteetLinnassa(i, j, pelaajat, lauta);</span>
+
+                            // Annetaan pisteet pelaajille.
+<span class="fc bfc" id="L185" title="All 2 branches covered.">                            for (int k = 0; k &lt; tiedot.size(); k++) {</span>
+<span class="fc" id="L186">                                Pelaaja p = (Pelaaja) tiedot.get(k);</span>
+<span class="fc" id="L187">                                p.lisaaPisteita(pisteet[1][k]);</span>
+                            }
+
+                            // MerkitÃ¤Ã¤n linna pisteytetyksi. 
+<span class="fc" id="L191">                            kaydyt = funktiot.merkitseLinnaPisteytetyksi(i, j, lauta, kaydyt);</span>
+
+                        }
+                    }
+                }
+            }
+        }
+
+<span class="fc" id="L199">    }</span>
+
+    /**
+     * Kertoo paljonko eri pelaajilla on seuraajia ja pisteitÃ¤ ennen seuraavaa
+     * siirtoa.
+     *
+     * @param tiedot Lista, jossa pelaajien tiedot ovat tallennettuina.
+     */
+    public void valiRaportti(Lista tiedot) {
+
+<span class="nc bnc" id="L209" title="All 2 branches missed.">        for (int k = 0; k &lt; tiedot.size(); k++) {</span>
+<span class="nc" id="L210">            Pelaaja p = (Pelaaja) tiedot.get(k);</span>
+<span class="nc" id="L211">            System.out.print(&quot;Pelaajalla &quot; + p.getNumero());</span>
+<span class="nc" id="L212">            System.out.print(&quot; on &quot; + p.getPisteet() + &quot; pistettÃ¤ &quot;);</span>
+<span class="nc" id="L213">            System.out.println(&quot;ja &quot; + p.getSeuraajat() + &quot; seuraajaa&quot;);</span>
+        }
+
+<span class="nc" id="L216">        System.out.println(&quot;&quot;);</span>
+
+<span class="nc" id="L218">    }</span>
+
+    /**
+     * Julistaa pelin lopputuloksen.
+     *
+     * @param peli Pelitilanne viimeisen siirron jÃ¤lkeen.
+     * @param tiedot Lista, jossa on Pelaaja-objekteja.
+     */
+    public void loppuTulos(int[][] peli, Lista tiedot) {
+
+        // Tulostetaan lopullinen pelitilanne.
+<span class="nc" id="L229">        funktiot.tulostaKartta(this.lauta);</span>
+
+        // Ilmoitetaan kÃ¤yttÃ¤jÃ¤lle pelin loppumisesta. 
+<span class="nc" id="L232">        System.out.println(&quot;&quot;);</span>
+<span class="nc" id="L233">        System.out.println(&quot;Peli on nyt loppu!&quot;);</span>
+<span class="nc" id="L234">        System.out.println(&quot;&quot;);</span>
+
+<span class="nc bnc" id="L236" title="All 2 branches missed.">        for (int k = 0; k &lt; tiedot.size(); k++) {</span>
+<span class="nc" id="L237">            Pelaaja p = (Pelaaja) tiedot.get(k);</span>
+<span class="nc" id="L238">            System.out.println(&quot;Pelaajalla &quot; + p.getNumero() + &quot; on &quot;</span>
+<span class="nc" id="L239">                    + p.getPisteet() + &quot; pistettÃ¤&quot;);</span>
+        }
+<span class="nc" id="L241">    }</span>
+
+    /**
+     * Kysyy kÃ¤yttÃ¤jÃ¤ltÃ¤ laudan koon.
+     *
+     * @return
+     */
+    public int kysyLaudanKoko() {
+
+<span class="nc" id="L250">        System.out.print(&quot;Anna laudan koko:&quot;);</span>
+<span class="nc" id="L251">        int koko = Integer.parseInt(scanner.nextLine().trim());</span>
+<span class="nc" id="L252">        System.out.println(&quot;&quot;);</span>
+<span class="nc" id="L253">        return koko;</span>
+
+    }
+
+    /**
+     * Asettaa laudan leveyden ja korkeuden.
+     *
+     * @param laudanKoko Haluttu korkeus/leveys.
+     * @return Palauttaa tyhjÃ¤n kokonaisluku matriisin, jolla on haluttu koko.
+     */
+    public int[][] asetaLaudanKoko(int laudanKoko) {
+<span class="nc" id="L264">        lauta = new int[laudanKoko][laudanKoko];</span>
+<span class="nc" id="L265">        return lauta;</span>
+    }
+
+    /**
+     * Asettaa pisteytetyistÃ¤ ruuduista huolehtivan matriisin koon.
+     *
+     * @param laudanKoko Haluttu korkeus/leveys.
+     * @return Palauttaa tyhjÃ¤n boolean matriisin, jolla on haluttu koko.
+     */
+    public boolean[][] asetaKaydytKoko(int laudanKoko) {
+<span class="nc" id="L275">        kaydyt = new boolean[laudanKoko][laudanKoko];</span>
+<span class="nc" id="L276">        return kaydyt;</span>
+    }
+
+    /**
+     * Kysyy kÃ¤yttÃ¤jÃ¤ltÃ¤ pelissÃ¤ olevien laattojen mÃ¤Ã¤rÃ¤n.
+     *
+     * @param laudanKoko Pelilaudan leveys/korkeus.
+     * @return Palauttaa kÃ¤yttÃ¤jÃ¤n luetun syÃ¶tteen.
+     */
+    public int kysyPakanKoko(int laudanKoko) {
+
+        // Lasketaan laattojen maksimimÃ¤Ã¤rÃ¤.
+<span class="nc" id="L288">        int max = laudanKoko * laudanKoko;</span>
+<span class="nc" id="L289">        int laattoja = 0;</span>
+
+        // KysytÃ¤Ã¤n kÃ¤yttÃ¤jÃ¤ltÃ¤ syÃ¶tettÃ¤, kunnes saadaan kelvollinen. 
+        while (true) {
+
+<span class="nc" id="L294">            System.out.println(&quot;Laattojen mÃ¤Ã¤rÃ¤n maksimi on: &quot; + max);</span>
+<span class="nc" id="L295">            System.out.print(&quot;Anna laattojen mÃ¤Ã¤rÃ¤:&quot;);</span>
+<span class="nc" id="L296">            laattoja = Integer.parseInt(scanner.nextLine().trim());</span>
+
+<span class="nc bnc" id="L298" title="All 2 branches missed.">            if (laattoja &lt;= max) {</span>
+<span class="nc" id="L299">                break;</span>
+            } else {
+<span class="nc" id="L301">                System.out.println(&quot;Laattojen mÃ¤Ã¤rÃ¤ on liian suuri!&quot;);</span>
+            }
+
+        }
+
+<span class="nc" id="L306">        System.out.println(&quot;&quot;);</span>
+
+<span class="nc" id="L308">        return laattoja;</span>
+    }
+
+    /**
+     * Luo pakan, jonka koko on kÃ¤yttÃ¤jÃ¤n haluama.
+     *
+     * @param x Pinoon tulevien laattojen mÃ¤Ã¤rÃ¤.
+     * @return Palauttaa pelivalmiin laattapinon.
+     */
+    public Pino asetaPakanKoko(int x) {
+        // Arvotaan pakkaan laattoja haluttu mÃ¤Ã¤rÃ¤. 
+<span class="nc" id="L319">        Pino pino = funktiot.taytaPakka(x);</span>
+<span class="nc" id="L320">        return pino;</span>
+    }
+
+    /**
+     * Kysyy kÃ¤yttÃ¤jÃ¤ltÃ¤ montako pelaajaa pelissÃ¤ pitÃ¤isi olla.
+     *
+     * @return Palauttaa kokonaisluvun, joka on 1-4.
+     */
+    public int kysyPelaajienMaara() {
+
+<span class="nc" id="L330">        int pelaajia = 0;</span>
+
+        // KysytÃ¤Ã¤n kÃ¤yttÃ¤jÃ¤ltÃ¤ syÃ¶te.
+<span class="nc" id="L333">        System.out.println(&quot;Pelaajia voi olla 1-4.&quot;);</span>
+<span class="nc" id="L334">        System.out.print(&quot;Anna pelaajien mÃ¤Ã¤rÃ¤:&quot;);</span>
+
+        // Kelvollinen mÃ¤Ã¤rÃ¤ on 1-4. Jatketaan kunnes mÃ¤Ã¤rÃ¤ on kelvollinen. 
+        while (true) {
+<span class="nc" id="L338">            pelaajia = Integer.parseInt(scanner.nextLine().trim());</span>
+<span class="nc bnc" id="L339" title="All 4 branches missed.">            if (pelaajia &gt;= 1 &amp;&amp; pelaajia &lt;= 4) {</span>
+<span class="nc" id="L340">                break;</span>
+            } else {
+<span class="nc" id="L342">                System.out.println(&quot;pelaajien mÃ¤Ã¤rÃ¤ ei ole kelvollinen luku!&quot;);</span>
+            }
+        }
+
+<span class="nc" id="L346">        System.out.println(&quot;&quot;);</span>
+
+<span class="nc" id="L348">        return pelaajia;</span>
+    }
+
+    /**
+     * TÃ¤llÃ¤ funktiolla mÃ¤Ã¤ritetÃ¤Ã¤n keitÃ¤ pelissÃ¤ olevat pelaajat ovat. He
+     * voivat olla ihmisiÃ¤ tai tekoÃ¤lyjÃ¤.
+     *
+     * @param pelaajat Taulukko, jossa on pelaajien numerot.
+     * @param tiedot Lista, jossa on mÃ¤Ã¤rittelemÃ¤ttÃ¶miÃ¤ Pelaaja-objekteja.
+     */
+    public void maaritaPelaajienIdentiteetit(int[] pelaajat, Lista tiedot) {
+
+        // Muuttuja k on korkeintaan pelaajien mÃ¤Ã¤rÃ¤ - 1.
+        // Muuttuja a kuvaa pelaajien numeroita. 
+<span class="nc" id="L362">        int k = 0;</span>
+<span class="nc" id="L363">        int a = 3;</span>
+
+        // KysytÃ¤Ã¤n kÃ¤yttÃ¤jÃ¤ltÃ¤ minkÃ¤ tyyppisiÃ¤ pelaajia hÃ¤n haluaa peliin. 
+<span class="nc bnc" id="L366" title="All 2 branches missed.">        while (k &lt; pelaajat.length) {</span>
+
+<span class="nc" id="L368">            System.out.println(&quot;MÃ¤Ã¤ritÃ¤ pelaajan &quot; + a + &quot; identiteetti.&quot;);</span>
+<span class="nc" id="L369">            System.out.println(&quot;1 = Ihminen&quot;);</span>
+<span class="nc" id="L370">            System.out.println(&quot;2 = Determistinen TekoÃ¤ly&quot;);</span>
+<span class="nc" id="L371">            System.out.println(&quot;3 = Pelipuu TekoÃ¤ly&quot;);</span>
+<span class="nc" id="L372">            System.out.println(&quot;&quot;);</span>
+<span class="nc" id="L373">            System.out.print(&quot;SyÃ¶tÃ¤ pelaajan identiteetti tÃ¤hÃ¤n:&quot;);</span>
+
+<span class="nc" id="L375">            int identiteetti = Integer.parseInt(scanner.nextLine().trim());</span>
+
+<span class="nc bnc" id="L377" title="All 2 branches missed.">            if (identiteetti == 1) {</span>
+<span class="nc" id="L378">                Pelaaja ihminenPelaaja = new Pelaaja(a, true, false, false);</span>
+<span class="nc" id="L379">                tiedot.add(ihminenPelaaja);</span>
+<span class="nc" id="L380">                k++;</span>
+<span class="nc" id="L381">                a++;</span>
+<span class="nc bnc" id="L382" title="All 2 branches missed.">            } else if (identiteetti == 2) {</span>
+<span class="nc" id="L383">                Pelaaja determistinenPelaaja = new Pelaaja(a, false, true, false);</span>
+<span class="nc" id="L384">                tiedot.add(determistinenPelaaja);</span>
+<span class="nc" id="L385">                k++;</span>
+<span class="nc" id="L386">                a++;</span>
+<span class="nc bnc" id="L387" title="All 2 branches missed.">            } else if (identiteetti == 3) {</span>
+<span class="nc" id="L388">                Pelaaja puuPelaaja = new Pelaaja(a, false, false, true);</span>
+<span class="nc" id="L389">                tiedot.add(puuPelaaja);</span>
+<span class="nc" id="L390">                k++;</span>
+<span class="nc" id="L391">                a++;</span>
+<span class="nc" id="L392">            } else {</span>
+<span class="nc" id="L393">                System.out.println(&quot;SyÃ¶te ei ole kelvollinen, ole hyvÃ¤ ja yritÃ¤ uudestaan.&quot;);</span>
+            }
+
+<span class="nc" id="L396">            System.out.println(&quot;&quot;);</span>
+
+<span class="nc" id="L398">        }</span>
+
+<span class="nc" id="L400">    }</span>
+
+    /**
+     * VÃ¤hentÃ¤Ã¤ pelaajan seuraajista yhden, jos pelaaja asetti seuraajan
+     * johonkin ruutuun viimevuorolla.
+     *
+     * @param pNumero Vuorossa olevan pelaajan numero.
+     * @param vuoro Monesko pelaaja on vuorossa, jos pelaaja on 3, vuoro on 0.
+     * @param ennen Pelitilanne ennen siirtoa
+     * @param jalkeen Pelitilanne siirron jalkeen.
+     * @param tiedot Lista, jossa on pelaajien tiedot.
+     */
+    public void vahennaSeuraajaJosAsetettu(int pNumero, int vuoro, int[][] ennen, int[][] jalkeen, Lista tiedot) {
+
+        // KÃ¤ydÃ¤Ã¤n koko matriisi lÃ¤pi ja etsitÃ¤Ã¤n ruutua, jonka arvo on muuttunut. 
+<span class="fc bfc" id="L415" title="All 2 branches covered.">        for (int i = 0; i &lt; ennen.length; i++) {</span>
+<span class="fc bfc" id="L416" title="All 2 branches covered.">            for (int j = 0; j &lt; ennen.length; j++) {</span>
+
+                // KÃ¤sitellÃ¤Ã¤n muuttunut ruutu, jos sellainen lÃ¶ytyy. 
+<span class="fc bfc" id="L419" title="All 2 branches covered.">                if (ennen[i][j] != jalkeen[i][j]) {</span>
+
+                    // Jos muuttuneessa ruudussa on pelaajan numero, vÃ¤hennetÃ¤Ã¤n tÃ¤ltÃ¤ seuraaja. 
+<span class="fc bfc" id="L422" title="All 2 branches covered.">                    if (jalkeen[i][j] == pNumero) {</span>
+<span class="fc" id="L423">                        Pelaaja p = (Pelaaja) tiedot.get(vuoro);</span>
+<span class="fc" id="L424">                        p.lisaaSeuraajia(-1);</span>
+                    }
+
+                }
+            }
+        }
+
+<span class="fc" id="L431">    }</span>
+
+    /**
+     * Jokaisen siirron jÃ¤lkeen pelin tilanne pitÃ¤Ã¤ pÃ¤ivittÃ¤Ã¤. Tarkistetaan siis
+     * onko pelissÃ¤ valmiita linnoja. Jos tÃ¤llÃ¤isiÃ¤ lÃ¶ytyy, merkitÃ¤Ã¤n ne
+     * pisteytetyksi ja annetaan pelaajille seuraajat sekÃ¤ pisteet, jotka
+     * valmiissa linnoissa on. Valmiista linnoista myÃ¶s poistetaan seuraajat.
+     *
+     * @param pelaajat Taulukko, jossa on pelaajien numerot.
+     * @param lauta Pelin tilanne ennen pÃ¤ivitystÃ¤.
+     * @param kaydyt Ruudut, jotka on jo pisteytetty.
+     * @param tiedot Lista, jossa on tiedot Pelaaja -objekteista.
+     */
+    public void paivita(int[] pelaajat, int[][] lauta, boolean[][] kaydyt, Lista tiedot) {
+
+        // KÃ¤ydÃ¤Ã¤n koko ruudukko lÃ¤pi ja etsitÃ¤Ã¤n valmiita linnoja. 
+<span class="fc bfc" id="L447" title="All 2 branches covered.">        for (int i = 0; i &lt; lauta.length; i++) {</span>
+<span class="fc bfc" id="L448" title="All 2 branches covered.">            for (int j = 0; j &lt; lauta.length; j++) {</span>
+
+                // Tarkistetaan, ettÃ¤ tÃ¤ssÃ¤ ei ole vielÃ¤ kÃ¤yty ja alue on linna.
+<span class="fc bfc" id="L451" title="All 4 branches covered.">                if (!kaydyt[i][j] &amp;&amp; lauta[i][j] &gt; 1) {</span>
+
+                    // Katsotaan onko tÃ¤stÃ¤ alkava linna valmis
+<span class="fc bfc" id="L454" title="All 2 branches covered.">                    if (funktiot.onValmis(i, j, lauta)) {</span>
+
+                        // Pelaajat, joilla on eniten seuraajia linnassa, saavat pisteitÃ¤.
+<span class="fc" id="L457">                        int[][] pisteet = funktiot.pelaajillePisteetLinnassa(i, j, pelaajat, lauta);</span>
+
+                        // Katsotaan montako seuraajaa kullakin pelaajalla on linnassa. 
+<span class="fc" id="L460">                        int[][] seuraajat = funktiot.linnassaOlevatSeuraajat(i, j, pelaajat, lauta);</span>
+
+                        // Palautetaan seuraajat ja annetaan pelaajille pisteet. 
+<span class="fc bfc" id="L463" title="All 2 branches covered.">                        for (int k = 0; k &lt; tiedot.size(); k++) {</span>
+<span class="fc" id="L464">                            Pelaaja p = (Pelaaja) tiedot.get(k);</span>
+<span class="fc" id="L465">                            p.lisaaPisteita(pisteet[1][k]);</span>
+<span class="fc" id="L466">                            p.lisaaSeuraajia(seuraajat[1][k]);</span>
+                        }
+
+                        // MerkitÃ¤Ã¤n linna pisteytetyksi, ettei anneta pisteitÃ¤ vahingossa useasti. 
+<span class="fc" id="L470">                        kaydyt = funktiot.merkitseLinnaPisteytetyksi(i, j, lauta, kaydyt);</span>
+
+                        // Poistetaan linnasta seuraajat:
+<span class="fc" id="L473">                        lauta = funktiot.poistaSeuraajat(i, j, lauta);</span>
+                    }
+                }
+            }
+        }
+<span class="fc" id="L478">    }</span>
+
+    /**
+     * Kertoo jokaisen vuoron alussa kenen vuoro on seuraavaksi, miltÃ¤
+     * pelitilanne nÃ¤yttÃ¤Ã¤ ja paljonko pelattavia laattoja on jÃ¤ljellÃ¤.
+     *
+     * @param vuoro Vuorossa oleva pelaaja.
+     * @param peli Pelitilanne ennen seuraavaa siirtoa.
+     */
+    public void tilanne(int vuoro, int[][] peli) {
+
+<span class="nc" id="L489">        System.out.println(&quot;Nyt on pelaajan: &quot; + (vuoro + 3) + &quot; vuoro&quot;);</span>
+<span class="nc" id="L490">        System.out.println(&quot;&quot;);</span>
+<span class="nc" id="L491">        System.out.println(&quot;Pelitilanne on nyt:&quot;);</span>
+<span class="nc" id="L492">        funktiot.tulostaKartta(peli);</span>
+<span class="nc" id="L493">        System.out.println(&quot;&quot;);</span>
+<span class="nc" id="L494">        System.out.println(&quot;laattoja on jÃ¤ljellÃ¤: &quot; + laatat.size());</span>
+<span class="nc" id="L495">        System.out.println(&quot;&quot;);</span>
+
+<span class="nc" id="L497">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

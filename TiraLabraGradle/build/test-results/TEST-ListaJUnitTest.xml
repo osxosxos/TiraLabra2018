@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ListaJUnitTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2018-03-16T15:21:50" hostname="Löllö-PC" time="0.006">
+  <properties/>
+  <testcase name="numeroLista" classname="ListaJUnitTest" time="0.0"/>
+  <testcase name="taulukkoLista" classname="ListaJUnitTest" time="0.004"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="FunktiotJUnitTest" tests="30" skipped="0" failures="0" errors="0" timestamp="2018-03-16T15:21:50" hostname="Löllö-PC" time="0.059">
+  <properties/>
+  <testcase name="pelaajillePisteetLinnasta" classname="FunktiotJUnitTest" time="0.001"/>
+  <testcase name="merkitseLinnaPisteytetyksi" classname="FunktiotJUnitTest" time="0.002"/>
+  <testcase name="seuraajatKulmittainLinnoissa" classname="FunktiotJUnitTest" time="0.001"/>
+  <testcase name="kulmittaistenLinnojenPisteet" classname="FunktiotJUnitTest" time="0.001"/>
+  <testcase name="kulmassaTaiVieressaOnLinna" classname="FunktiotJUnitTest" time="0.0"/>
+  <testcase name="pisteetVieressaJaKulmissa" classname="FunktiotJUnitTest" time="0.0"/>
+  <testcase name="viereistenLinnojenPisteet" classname="FunktiotJUnitTest" time="0.001"/>
+  <testcase name="seuraajatVieressaJaKulmissa" classname="FunktiotJUnitTest" time="0.006"/>
+  <testcase name="poistaSeuraajat" classname="FunktiotJUnitTest" time="0.006"/>
+  <testcase name="linnanPisteet" classname="FunktiotJUnitTest" time="0.0"/>
+  <testcase name="kopioiPisteTaulu" classname="FunktiotJUnitTest" time="0.001"/>
+  <testcase name="luoPelaajaTaulu" classname="FunktiotJUnitTest" time="0.002"/>
+  <testcase name="taytaPakka" classname="FunktiotJUnitTest" time="0.001"/>
+  <testcase name="onkoVapaa" classname="FunktiotJUnitTest" time="0.0"/>
+  <testcase name="tulostaKartta" classname="FunktiotJUnitTest" time="0.002"/>
+  <testcase name="kopioiKartta" classname="FunktiotJUnitTest" time="0.0"/>
+  <testcase name="kopioiBoolean" classname="FunktiotJUnitTest" time="0.0"/>
+  <testcase name="tulostaBoolean" classname="FunktiotJUnitTest" time="0.001"/>
+  <testcase name="asetaLaatta" classname="FunktiotJUnitTest" time="0.003"/>
+  <testcase name="kulmassaOnLinna" classname="FunktiotJUnitTest" time="0.0"/>
+  <testcase name="asetaSeuraaja" classname="FunktiotJUnitTest" time="0.001"/>
+  <testcase name="onkoLinnassaJoSeuraaja" classname="FunktiotJUnitTest" time="0.001"/>
+  <testcase name="tulostaPistetaulu" classname="FunktiotJUnitTest" time="0.003"/>
+  <testcase name="otaPelaajaltaSeuraaja" classname="FunktiotJUnitTest" time="0.0"/>
+  <testcase name="linnassaOlevatSeuraajat" classname="FunktiotJUnitTest" time="0.0"/>
+  <testcase name="lisaaPisteitaVakiomaara" classname="FunktiotJUnitTest" time="0.001"/>
+  <testcase name="ruudunViereistenLinnojenSeuraajat" classname="FunktiotJUnitTest" time="0.0"/>
+  <testcase name="kopioiLautaLista" classname="FunktiotJUnitTest" time="0.0"/>
+  <testcase name="onValmis" classname="FunktiotJUnitTest" time="0.001"/>
+  <testcase name="vieressaOnLinna" classname="FunktiotJUnitTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
