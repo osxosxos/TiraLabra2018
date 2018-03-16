@@ -246,8 +246,7 @@ public class Peli {
      * @return
      */
     public int kysyLaudanKoko() {
-
-        System.out.print("Anna laudan koko:");
+        System.out.println("Anna laudan koko: ");
         int koko = Integer.parseInt(scanner.nextLine().trim());
         System.out.println("");
         return koko;
@@ -291,8 +290,9 @@ public class Peli {
         // Kysytään käyttäjältä syötettä, kunnes saadaan kelvollinen. 
         while (true) {
 
-            System.out.println("Laattojen määrän maksimi on: " + max);
-            System.out.print("Anna laattojen määrä:");
+            System.out.println("Laattojen määrän maksimi on: " + max + System.lineSeparator()
+                    + "Anna laattojen määrä: ");
+
             laattoja = Integer.parseInt(scanner.nextLine().trim());
 
             if (laattoja <= max) {
@@ -330,8 +330,8 @@ public class Peli {
         int pelaajia = 0;
 
         // Kysytään käyttäjältä syöte.
-        System.out.println("Pelaajia voi olla 1-4.");
-        System.out.print("Anna pelaajien määrä:");
+        System.out.println("Pelaajia voi olla 1-4." + System.lineSeparator()
+                + "Anna pelaajien määrä:");
 
         // Kelvollinen määrä on 1-4. Jatketaan kunnes määrä on kelvollinen. 
         while (true) {
@@ -368,9 +368,8 @@ public class Peli {
             System.out.println("Määritä pelaajan " + a + " identiteetti.");
             System.out.println("1 = Ihminen");
             System.out.println("2 = Determistinen Tekoäly");
-            System.out.println("3 = Pelipuu Tekoäly");
-            System.out.println("");
-            System.out.print("Syötä pelaajan identiteetti tähän:");
+            System.out.println("3 = Pelipuu Tekoäly" + System.lineSeparator()
+                    + "Syötä pelaajan identiteetti tähän:");
 
             int identiteetti = Integer.parseInt(scanner.nextLine().trim());
 
